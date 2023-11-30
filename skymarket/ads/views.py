@@ -1,3 +1,4 @@
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import pagination, viewsets, generics, status
 
@@ -14,6 +15,8 @@ class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     pagination_class = AdPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
 
     def get_serializer_class(self):
         """При детальном просмотре объявления оброщение к сериализатору
