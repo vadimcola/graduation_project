@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import pagination, viewsets, generics, status
 
 from .models import Ad, Comment
+from .permissions import CustomPermission, UserPermission
 from .serializers import AdSerializer, AdDetailSerializer, CommentSerializer
 
 
@@ -17,6 +18,7 @@ class AdViewSet(viewsets.ModelViewSet):
     pagination_class = AdPagination
     filter_backends = [SearchFilter]
     search_fields = ['title']
+    permission_classes = [CustomPermission, UserPermission]
 
     def get_serializer_class(self):
         """При детальном просмотре объявления оброщение к сериализатору
