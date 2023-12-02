@@ -16,7 +16,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -116,13 +115,16 @@ DJOSER = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# TODO здесь необходимо настроить подключение к БД
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': 'vadim$1983',
+        'HOST': 'db',
     }
 }
+load_dotenv(BASE_DIR / '.env')
 
 
 # Password validation
@@ -177,10 +179,10 @@ AUTH_USER_MODEL = 'users.User'
 # TODO эти переменные мы добавили чтобы помочь Вам настроить почтовый ящик на django.
 # TODO теперь Вам необходимо создать файл .env на основе .env.example
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'vadimcola181183@gmail.com'
-EMAIL_HOST_PASSWORD = 'qaqgwvbloaamvied'
-EMAIL_PORT = 587
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = True
 
 SERVER_EMAIL = EMAIL_HOST_USER
