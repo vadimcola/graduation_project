@@ -1,7 +1,7 @@
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import pagination, viewsets, generics, status
-
+from rest_framework.permissions import IsAuthenticated
 from .models import Ad, Comment
 from .permissions import CustomPermission, UserPermission
 from .serializers import AdSerializer, AdDetailSerializer, CommentSerializer
@@ -48,8 +48,10 @@ class AdMe(generics.ListAPIView):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """Просмотр комментариев к объявлениям"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated, UserPermission]
 
     def get_queryset(self):
         return Comment.objects.filter(ad__id=self.kwargs['ad_pk'])
