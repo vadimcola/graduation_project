@@ -2,6 +2,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import pagination, viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated
+
 from .models import Ad, Comment
 from .permissions import CustomPermission, UserPermission
 from .serializers import AdSerializer, AdDetailSerializer, CommentSerializer
@@ -13,7 +14,7 @@ class AdPagination(pagination.PageNumberPagination):
 
 
 class AdViewSet(viewsets.ModelViewSet):
-    queryset = Ad.objects.all()
+    queryset = Ad.objects.all().order_by('-created_at')
     serializer_class = AdSerializer
     pagination_class = AdPagination
     filter_backends = [SearchFilter]
@@ -36,7 +37,7 @@ class AdViewSet(viewsets.ModelViewSet):
 
 class AdMe(generics.ListAPIView):
     """Просмотр списка объявлений пользователя"""
-    queryset = Ad.objects.all()
+    queryset = Ad.objects.all().order_by('-created_at')
     serializer_class = AdSerializer
     pagination_class = AdPagination
 
@@ -49,7 +50,7 @@ class AdMe(generics.ListAPIView):
 
 class CommentViewSet(viewsets.ModelViewSet):
     """Просмотр комментариев к объявлениям"""
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('-created_at')
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, UserPermission]
 
